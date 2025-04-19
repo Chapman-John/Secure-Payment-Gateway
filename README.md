@@ -1,4 +1,4 @@
-# Java Online Banking Backend Application
+# Secure Payment Gateway Application
 
 ### Technologies Used
 - **Java**  
