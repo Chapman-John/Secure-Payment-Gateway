@@ -1,4 +1,4 @@
-# Online Banking Application
+# Secure Payment Gateway Application
 
 A comprehensive online banking solution built with Spring Boot and React, featuring robust security, real-time notifications, and fraud detection.
 
