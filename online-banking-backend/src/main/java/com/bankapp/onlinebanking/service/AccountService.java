@@ -26,8 +26,9 @@ public class AccountService {
     }
 
     public Account login(String username, String password) {
-        Account account = accountRepository.findByUsername(username);
-        if (account == null || !account.getPassword().equals(password)) {
+        Account account = accountRepository.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("Invalid username or password"));
+        if (!account.getPassword().equals(password)) {
             throw new RuntimeException("Invalid username or password");
         }
         return account;

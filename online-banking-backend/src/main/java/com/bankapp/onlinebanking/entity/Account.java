@@ -7,6 +7,9 @@ import jakarta.persistence.*;
 // import lombok.NoArgsConstructor;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 // @Getter
 // @Setter
@@ -42,6 +45,26 @@ public class Account {
 
     private Double balance = 0.0;
     private String accountType;
+
+    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
+    private List<Contact> contacts = new ArrayList<>();
+
+    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
+    private List<RecurringPayment> recurringPayments = new ArrayList<>();
+
+    // Two-factor authentication fields
+    private Boolean twoFactorEnabled = false;
+    private String phoneNumber;
+    private String email;
+    private String twoFactorSecret;
+    private LocalDateTime secretExpiry;
+
+    // Session tracking
+    private String lastLoginIp;
+    private LocalDateTime lastLoginTime;
+    private String lastLoginDevice;
+    private Integer failedLoginAttempts = 0;
+    private Boolean isLocked = false;
 
     public Account() {
         this.balance = 0.0;
@@ -127,6 +150,47 @@ public class Account {
 
     public void setAccountType(String accountType) {
         this.accountType = accountType;
+    }
+
+    // Additional Getters and Setters
+    public String getLastLoginIp() {
+        return lastLoginIp;
+    }
+
+    public void setLastLoginIp(String lastLoginIp) {
+        this.lastLoginIp = lastLoginIp;
+    }
+
+    public String getTwoFactorSecret() {
+        return twoFactorSecret;
+    }
+
+    public void setTwoFactorSecret(String twoFactorSecret) {
+        this.twoFactorSecret = twoFactorSecret;
+    }
+
+    public LocalDateTime getSecretExpiry() {
+        return secretExpiry;
+    }
+
+    public void setSecretExpiry(LocalDateTime secretExpiry) {
+        this.secretExpiry = secretExpiry;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 
 }
