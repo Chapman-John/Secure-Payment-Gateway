@@ -3,6 +3,7 @@ package com.bankapp.onlinebanking.service;
 import com.bankapp.onlinebanking.entity.Account;
 import com.bankapp.onlinebanking.repository.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
@@ -11,31 +12,38 @@ import java.util.List;
 @Transactional
 public class AccountService {
 
-    @Autowired
     private final AccountRepository accountRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    public AccountService(AccountRepository accountRepository) {
+    @Autowired
+    public AccountService(AccountRepository accountRepository, PasswordEncoder passwordEncoder) {
         this.accountRepository = accountRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public Account createAccount(Account account) {
-        if (accountRepository.findByUsername(account.getUsername()) != null) {
+        if (accountRepository.findByUsername(account.getUsername()).isPresent()) {
             throw new RuntimeException("Username already exists");
         }
+        // Encode the password before saving
+        account.setPassword(passwordEncoder.encode(account.getPassword()));
         return accountRepository.save(account);
     }
 
     public Account login(String username, String password) {
         Account account = accountRepository.findByUsername(username)
                 .orElseThrow(() -> new RuntimeException("Invalid username or password"));
-        if (!account.getPassword().equals(password)) {
+        
+        // Use password encoder to verify the password
+        if (!passwordEncoder.matches(password, account.getPassword())) {
             throw new RuntimeException("Invalid username or password");
         }
         return account;
     }
 
-    public Boolean accountExists(String account) {
-        return accountRepository.findByAccountHolderName(account) != null;
+    // Remaining methods stay the same
+    public Boolean accountExists(String username) {
+        return accountRepository.findByUsername(username).isPresent();
     }
 
     public List<Account> getAllAccounts() {
@@ -48,9 +56,6 @@ public class AccountService {
     }
 
     public double getBalance(Long id) {
-        // public Account getBalance(Long id) {
-        // return accountRepository.findById(id)
-        // .orElseThrow(() -> new RuntimeException("Account not found"));
         Account account = accountRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Account not found"));
         return account.getBalance();
@@ -93,5 +98,5 @@ public class AccountService {
         accountRepository.save(fromAccount);
         accountRepository.save(toAccount);
     }
-
+}
 }
