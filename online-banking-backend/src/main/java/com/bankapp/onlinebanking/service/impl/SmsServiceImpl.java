@@ -13,16 +13,15 @@ public class SmsServiceImpl implements SmsService {
     @Override
     public void sendTransactionAlert(String phoneNumber, Transaction transaction) {
         logger.debug("Transaction object: {}", transaction);
-        logger.debug("Transaction fields - status: {}, type: {}", 
-            transaction.getStatus(), 
-            transaction.getTransactionType());
-            
+        logger.debug("Transaction fields - status: {}, type: {}",
+                transaction.getStatus(),
+                transaction.getTransactionType());
+
         String message = String.format(
-            "Transaction Alert:\nAmount: $%.2f\nType: %s\nStatus: %s",
-            transaction.getAmount(),
-            transaction.getTransactionType(),
-            transaction.getStatus()
-        );
+                "Transaction Alert:\nAmount: $%.2f\nType: %s\nStatus: %s",
+                transaction.getAmount(),
+                transaction.getTransactionType(),
+                transaction.getStatus());
         logger.info("Sending SMS to: {}, Message: {}", phoneNumber, message);
     }
 
@@ -31,4 +30,9 @@ public class SmsServiceImpl implements SmsService {
         String message = String.format("Your verification code is: %s", code);
         logger.info("Sending SMS to: {}, Message: {}", phoneNumber, message);
     }
-} 
+
+    @Override
+    public void sendSms(String phoneNumber, String message) {
+        logger.info("Sending SMS to: {}, Message: {}", phoneNumber, message);
+    }
+}

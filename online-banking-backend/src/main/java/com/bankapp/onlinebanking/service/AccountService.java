@@ -14,6 +14,8 @@ public class AccountService {
 
     private final AccountRepository accountRepository;
     private final PasswordEncoder passwordEncoder;
+    @Autowired
+    private NotificationService notificationService;
 
     @Autowired
     public AccountService(AccountRepository accountRepository, PasswordEncoder passwordEncoder) {
@@ -65,6 +67,13 @@ public class AccountService {
         Account account = accountRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Account not found"));
         account.setBalance(account.getBalance() + amount);
+        // Create notification
+        notificationService.createNotification(
+                account,
+                String.format("$%.2f was deposited to your account", amount),
+                "TRANSACTION",
+                "INFO");
+
         return accountRepository.save(account);
     }
 
@@ -74,6 +83,13 @@ public class AccountService {
             throw new RuntimeException("Insufficient funds in account with ID: " + id);
         }
         account.setBalance(account.getBalance() - amount);
+        // Create notification
+        notificationService.createNotification(
+                account,
+                String.format("$%.2f was withdrawn from your account", amount),
+                "TRANSACTION",
+                "INFO");
+
         return accountRepository.save(account);
     }
 
@@ -97,6 +113,20 @@ public class AccountService {
 
         accountRepository.save(fromAccount);
         accountRepository.save(toAccount);
+
+        notificationService.createNotification(
+                fromAccount,
+                String.format("$%.2f was transferred to account ending in %s",
+                        amount, toAccount.getAccountNumber().substring(toAccount.getAccountNumber().length() - 4)),
+                "TRANSACTION",
+                "INFO");
+
+        notificationService.createNotification(
+                toAccount,
+                String.format("$%.2f was received from account ending in %s",
+                        amount, fromAccount.getAccountNumber().substring(fromAccount.getAccountNumber().length() - 4)),
+                "TRANSACTION",
+                "INFO");
     }
+
 }
-// }
