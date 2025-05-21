@@ -11,6 +11,7 @@ com/bankapp/onlinebanking/entity/RecurringPayment.class
 com/bankapp/onlinebanking/security/JwtAuthenticationFilter.class
 com/bankapp/onlinebanking/model/User.class
 com/bankapp/onlinebanking/security/CustomUserDetailsService.class
+com/bankapp/onlinebanking/config/FlywayConfig.class
 com/bankapp/onlinebanking/service/TwoFactorAuthService.class
 com/bankapp/onlinebanking/service/EmailService.class
 com/bankapp/onlinebanking/repository/RecurringPaymentRepository.class

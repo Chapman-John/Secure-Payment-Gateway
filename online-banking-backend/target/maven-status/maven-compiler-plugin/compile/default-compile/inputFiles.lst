@@ -1,4 +1,5 @@
 /Users/johnathanchapman/Documents/Secure-Payment-Gateway/online-banking-backend/src/main/java/com/bankapp/onlinebanking/OnlineBankingApplication.java
+/Users/johnathanchapman/Documents/Secure-Payment-Gateway/online-banking-backend/src/main/java/com/bankapp/onlinebanking/config/FlywayConfig.java
 /Users/johnathanchapman/Documents/Secure-Payment-Gateway/online-banking-backend/src/main/java/com/bankapp/onlinebanking/config/SecurityConfig.java
 /Users/johnathanchapman/Documents/Secure-Payment-Gateway/online-banking-backend/src/main/java/com/bankapp/onlinebanking/config/WebConfig.java
 /Users/johnathanchapman/Documents/Secure-Payment-Gateway/online-banking-backend/src/main/java/com/bankapp/onlinebanking/config/WebSocketConfig.java
