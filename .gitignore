@@ -1,81 +1,63 @@
 application.properties
-# Dependencies
-/node_modules
-/online-banking-frontend/node_modules
-/.pnp
-.pnp.js
+# Backend Java files to ignore
+/online-banking/target/
+/online-banking-backend/target/
+target/
 
-# Testing
-/coverage
-
-# Production
-/build
-/online-banking-backend/target
-
-# Misc
-.DS_Store
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
-
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-
-.vscode
-
-# Java class files
+# Java class files and packages
 *.class
-/online-banking-backend/target/classes/
-# Maven files
 *.jar
 *.war
 *.ear
-*.class
-*.db
+
+# Logs and databases
 *.log
-*.sql
-# Gradle files     
-*.gradle
+*.db
+
+# Maven/Gradle files
+.mvn/
+gradle/
+gradlew
+gradlew.bat
 
 # Build output directories
 /bin/
 /build/
 /out/
 
-# IDE-specific files
-*.iml
-.idea/
-*.classpath
-*.project
-.settings/
-
-# Backend Java files to ignore
-/online-banking/target/
-/online-banking-backend/target/
-*.class
-*.jar
-*.war
-*.ear
-*.log
-.classpath
-.project
-.settings/
-.idea/
-*.iml
-*.iws
-.DS_Store
-
 # Frontend files to ignore
+/node_modules/
 /online-banking-frontend/node_modules/
 /online-banking-frontend/dist/
 /online-banking-frontend/build/
-/online-banking-frontend/.env.local
-/online-banking-frontend/.env.development.local
-/online-banking-frontend/.env.test.local
-/online-banking-frontend/.env.production.local
-/online-banking-frontend/npm-debug.log*
-/online-banking-frontend/yarn-debug.log*
-/online-banking-frontend/yarn-error.log*
+/.pnp
+.pnp.js
+/coverage/
+/.vite/
 /online-banking-frontend/.vite/
+
+# Environment files
+.env*
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+!.env.example
+
+# IDE-specific files
+.idea/
+*.iml
+*.iws
+.vscode/
+.classpath
+.project
+.settings/
+
+# OS specific files
+.DS_Store
+Thumbs.db
+
+# Debug logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
