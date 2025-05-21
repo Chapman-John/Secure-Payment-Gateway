@@ -3,34 +3,38 @@
 A comprehensive online banking solution built with Spring Boot and React, featuring robust security, real-time notifications, and fraud detection.
 
 ## Technologies Used
-- **Backend**
-  - Java 17
-  - Spring Boot 3.3.5
-  - Spring Security with JWT Authentication
-  - Spring Data JPA (Hibernate)
-  - WebSockets for real-time updates
-  - H2 Database (development) / MySQL (production)
-  - Lombok for reduced boilerplate
-  - JUnit and Testcontainers for testing
 
-- **Frontend**
-  - React
-  - Tailwind CSS
-  - WebSocket client for real-time updates
-  - Node.js
+### Backend
+- Java 17
+- Spring Boot 3.3.5
+- Spring Security with JWT Authentication
+- Spring Data JPA (Hibernate)
+- WebSockets with STOMP for real-time communication
+- Flyway for database migrations
+- H2 Database (development) / MySQL (production)
+- Lombok for reduced boilerplate
+- JUnit and Testcontainers for testing
+
+### Frontend
+- React 18.2.0 with TypeScript
+- React Router 6.20.0 for navigation
+- Tailwind CSS 3.4.17 for styling
+- STOMP/SockJS for WebSocket client
+- Axios 1.7.9 for API requests
+- Heroicons for UI components
 
 ## Key Features
 
 ### Authentication & Security
 - JWT-based authentication system
 - Password encryption with BCrypt
-- Two-factor authentication via SMS or email
-- Session tracking and management
+- Account locking after multiple failed login attempts
+- Session tracking with IP, device, and timestamp logging
 - CORS configuration for secure cross-origin requests
 
 ### Account Management
-- Multi-account support (Savings, Checking)
-- Balance inquiries
+- Multi-account support (Savings, Checking, Credit)
+- Real-time balance inquiries
 - Deposits and withdrawals
 - Account-to-account transfers
 - Contact management for frequent transfers
@@ -42,21 +46,25 @@ A comprehensive online banking solution built with Spring Boot and React, featur
 - Reference number generation for tracking
 
 ### Advanced Security Features
-- Fraud detection system for unusual transactions
+- Real-time fraud detection for unusual transactions
+- Automated suspicious transaction flagging
 - Login attempt tracking and account locking
 - IP and device tracking
-- Location-based security
+- Multi-factor authentication support
 
 ### Real-time Notifications
 - WebSocket-based instant notifications
-- Email notifications for significant transactions
-- SMS alerts for all account activities
-- Two-factor authentication code delivery
+- Multiple notification types (Transaction, Security, System)
+- Severity levels (Info, Warning, Critical)
+- Customizable notification preferences
+- Email notification support
+- SMS notification support
 
-### Recurring Payments
-- Scheduled recurring transfers
-- Multiple frequency options (Daily, Weekly, Monthly, Yearly)
-- Active/inactive payment management
+### Notification Preferences
+- Granular control over notification channels
+- Channel-specific thresholds for transaction notifications
+- Per-category notification settings
+- Real-time update of notification settings
 
 ## Architecture
 
@@ -66,8 +74,8 @@ The application follows a modern microservices-oriented architecture:
 - **Service Layer**: Business logic implementation
 - **Repository Layer**: Data access and persistence
 - **Entity Layer**: Domain models with JPA annotations
-- **Security Layer**: Authentication, authorization, and data protection
-- **Notification Layer**: Real-time and asynchronous notifications
+- **Security Layer**: JWT-based authentication and authorization
+- **Notification Layer**: Real-time and asynchronous notifications via WebSockets
 
 ## API Endpoints
 
@@ -84,9 +92,16 @@ The application follows a modern microservices-oriented architecture:
 - `POST /api/accounts/{id}/withdraw` - Withdraw funds
 - `POST /api/accounts/{fromId}/transfer/{toId}` - Transfer between accounts
 
+### Notification Management
+- `GET /api/notifications/{accountId}` - Get all notifications
+- `GET /api/notifications/{accountId}/unread` - Get unread notifications
+- `PUT /api/notifications/{notificationId}/read` - Mark notification as read
+- `GET /api/notifications/preferences/{accountId}` - Get notification preferences
+- `PUT /api/notifications/preferences/{accountId}` - Update notification preferences
+
 ### WebSocket Endpoints
-- `/ws` - WebSocket connection endpoint
-- `/topic/transactions/{id}` - Transaction notifications subscription
+- `/ws` - WebSocket connection endpoint with SockJS fallback
+- `/topic/notifications/{userId}` - User-specific notification subscription
 
 ## Getting Started
 
@@ -136,6 +151,19 @@ mvn test
 
 Integration tests use Testcontainers to spin up a MySQL database in a Docker container, ensuring tests run in an environment similar to production.
 
+## Database Configuration
+
+The application uses Flyway for database migrations, allowing for:
+- Versioned database schema changes
+- Environment-specific database configuration
+- Automatic schema creation and updates
+- Data seeding for development environments
+
+Database files:
+- `V1__create_base_tables.sql` - Initial schema creation
+- `V2__add_notification_tables.sql` - Notification system tables
+- `data.sql` - Sample data for development
+
 ## Deployment
 
 ### Docker (Recommended)
@@ -162,6 +190,7 @@ For manual deployment to a server:
 - Database credentials should be externalized
 - Use HTTPS in production
 - Consider implementing rate limiting
+- Account locking mechanism protects against brute force attacks
 
 ## Future Enhancements
 - Mobile application integration
@@ -169,12 +198,8 @@ For manual deployment to a server:
 - Investment account support
 - Enhanced analytics dashboard
 - AI-powered spending insights
+- Biometric authentication
+- Scheduled recurring payments
 
 ## License
-This project is available under both:
-- [MIT License](https://opensource.org/licenses/MIT)
-- [GNU General Public License (GPL)](https://www.gnu.org/licenses/gpl-3.0.html)
-
-## Contributors
-- [Your Name]
-- [Other Contributors]
+This project is available under the MIT License.
