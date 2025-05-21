@@ -24,3 +24,58 @@ yarn-debug.log*
 yarn-error.log*
 
 .vscode
+
+# Java class files
+*.class
+/online-banking-backend/target/classes/
+# Maven files
+*.jar
+*.war
+*.ear
+*.class
+*.db
+*.log
+*.sql
+# Gradle files     
+*.gradle
+
+# Build output directories
+/bin/
+/build/
+/out/
+
+# IDE-specific files
+*.iml
+.idea/
+*.classpath
+*.project
+.settings/
+
+# Backend Java files to ignore
+/online-banking/target/
+/online-banking-backend/target/
+*.class
+*.jar
+*.war
+*.ear
+*.log
+.classpath
+.project
+.settings/
+.idea/
+*.iml
+*.iws
+.DS_Store
+
+# Frontend files to ignore
+/online-banking-frontend/node_modules/
+/online-banking-frontend/dist/
+/online-banking-frontend/build/
+/online-banking-frontend/.env.local
+/online-banking-frontend/.env.development.local
+/online-banking-frontend/.env.test.local
+/online-banking-frontend/.env.production.local
+/online-banking-frontend/npm-debug.log*
+/online-banking-frontend/yarn-debug.log*
+/online-banking-frontend/yarn-error.log*
+/online-banking-frontend/.vite/

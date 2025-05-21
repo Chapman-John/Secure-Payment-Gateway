@@ -33,7 +33,7 @@ public class AccountService {
     public Account login(String username, String password) {
         Account account = accountRepository.findByUsername(username)
                 .orElseThrow(() -> new RuntimeException("Invalid username or password"));
-        
+
         // Use password encoder to verify the password
         if (!passwordEncoder.matches(password, account.getPassword())) {
             throw new RuntimeException("Invalid username or password");
@@ -99,4 +99,4 @@ public class AccountService {
         accountRepository.save(toAccount);
     }
 }
-}
+// }
