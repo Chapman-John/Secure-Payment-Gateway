@@ -1,6 +1,8 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import AccountsList from './components/AccountsList';
+import NotificationsPage from './pages/NotificationsPage';
+import NotificationSettingsPage from './pages/NotificationSettingsPage';
 
 // Create simple components for Dashboard and Transactions
 const Dashboard = () => (
@@ -77,6 +79,8 @@ function App() {
             <Route path="/" element={<Dashboard />} />
             <Route path="/accounts" element={<AccountsList />} />
             <Route path="/transactions" element={<Transactions />} />
+            <Route path="/notifications" element={<NotificationsPage />} />
+            <Route path="/notifications/settings" element={<NotificationSettingsPage />} />
           </Routes>
         </main>
       </Router>

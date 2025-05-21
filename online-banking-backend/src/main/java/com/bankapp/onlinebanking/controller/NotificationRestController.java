@@ -48,4 +48,18 @@ public class NotificationRestController {
         notificationService.markAsRead(notificationId);
         return ResponseEntity.ok().build();
     }
+
+    @PostMapping("/test/{accountId}")
+    public ResponseEntity<Notification> createTestNotification(@PathVariable Long accountId) {
+        Account account = accountRepository.findById(accountId)
+                .orElseThrow(() -> new RuntimeException("Account not found"));
+
+        Notification notification = notificationService.createNotification(
+                account,
+                "This is a test notification",
+                "SYSTEM",
+                "INFO");
+
+        return ResponseEntity.ok(notification);
+    }
 }

@@ -2,12 +2,15 @@ package com.bankapp.onlinebanking.controller;
 
 import com.bankapp.onlinebanking.entity.Account;
 import com.bankapp.onlinebanking.service.AccountService;
+import com.bankapp.onlinebanking.service.NotificationService;
+import jakarta.servlet.http.HttpServletRequest;
 import com.bankapp.onlinebanking.repository.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 
@@ -20,6 +23,9 @@ public class AccountController {
 
     @Autowired
     private AccountRepository accountRepository;
+
+    @Autowired
+    private NotificationService notificationService;
 
     public AccountController(AccountService accountService) {
         this.accountService = accountService;
@@ -40,12 +46,26 @@ public class AccountController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<Account> login(@RequestBody Map<String, String> credentials) {
+    public ResponseEntity<Account> login(@RequestBody Map<String, String> credentials, HttpServletRequest request) {
         String username = credentials.get("username");
         String password = credentials.get("password");
 
         try {
             Account account = accountService.login(username, password);
+
+            // Record login info
+            account.setLastLoginIp(request.getRemoteAddr());
+            account.setLastLoginTime(LocalDateTime.now());
+            account.setLastLoginDevice(request.getHeader("User-Agent"));
+            accountRepository.save(account);
+
+            // Create login notification
+            notificationService.createNotification(
+                    account,
+                    "New login to your account",
+                    "SECURITY",
+                    "INFO");
+
             return new ResponseEntity<>(account, HttpStatus.OK);
         } catch (RuntimeException e) {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
@@ -98,5 +118,4 @@ public class AccountController {
         accountService.transferMoney(fromId, toId, amount);
         return new ResponseEntity<>("Transfer successful", HttpStatus.OK);
     }
-
 }

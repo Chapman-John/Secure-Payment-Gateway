@@ -36,10 +36,39 @@ public class AccountService {
         Account account = accountRepository.findByUsername(username)
                 .orElseThrow(() -> new RuntimeException("Invalid username or password"));
 
+        // Check if account is locked
+        if (account.getIsLocked()) {
+            throw new RuntimeException("Account is locked due to too many failed attempts");
+        }
+
         // Use password encoder to verify the password
         if (!passwordEncoder.matches(password, account.getPassword())) {
+            // Increment failed attempts
+            account.setFailedLoginAttempts(account.getFailedLoginAttempts() + 1);
+
+            // Lock account after 5 failed attempts
+            if (account.getFailedLoginAttempts() >= 5) {
+                account.setIsLocked(true);
+                accountRepository.save(account);
+
+                // Send notification about account locking
+                notificationService.createNotification(
+                        account,
+                        "Your account has been locked due to multiple failed login attempts",
+                        "SECURITY",
+                        "CRITICAL");
+
+                throw new RuntimeException("Account locked due to too many failed attempts");
+            }
+
+            accountRepository.save(account);
             throw new RuntimeException("Invalid username or password");
         }
+
+        // Reset failed attempts on successful login
+        account.setFailedLoginAttempts(0);
+        accountRepository.save(account);
+
         return account;
     }
 
