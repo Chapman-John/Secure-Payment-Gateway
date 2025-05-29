@@ -11,22 +11,40 @@ public class Transaction {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    
+
     @ManyToOne
     @JoinColumn(name = "sender_id")
     private Account sender;
-    
+
     @ManyToOne
     @JoinColumn(name = "recipient_id")
     private Account recipient;
-    
+
     private Double amount;
     private LocalDateTime timestamp;
-    private String status; // PENDING, COMPLETED, FAILED, FLAGGED
+    private String status; // PENDING, COMPLETED, FAILED, FLAGGED, DISPUTED
     private String description;
     private String transactionType; // TRANSFER, DEPOSIT, WITHDRAWAL
     private String referenceNumber;
-    
+
+    // categorization
+    private String category; // GROCERIES, GAS, DINING, SHOPPING, BILLS, TRANSFER, etc.
+    private String subcategory; // ONLINE, IN-STORE, etc.
+    private Boolean isRecurring = false;
+    private String recurringPattern; // WEEKLY, MONTHLY, QUARTERLY, etc.
+
+    // Merchant information
+    private String merchantName;
+    private String merchantCategory;
+    private String merchantLocation;
+
+    // Dispute information
+    private Boolean isDisputed = false;
+    private String disputeReason;
+    private LocalDateTime disputeDate;
+    private String disputeStatus; // PENDING, RESOLVED, REJECTED
+    private String disputeResolution;
+
     // For fraud detection
     private String ipAddress;
     private String deviceInfo;
@@ -34,7 +52,15 @@ public class Transaction {
     private Boolean isFraudSuspected = false;
     private String fraudReason;
 
-    // Getters and Setters
+    // Additional metadata
+    @Column(columnDefinition = "TEXT")
+    private String notes;
+    private String tags; // Comma-separated tags for flexible categorization
+
+    // Balance after transaction (for account reconciliation)
+    private Double balanceAfter;
+
+    // Getters and Setters (keeping existing ones and adding new ones)
     public Account getSender() {
         return sender;
     }
@@ -82,4 +108,44 @@ public class Transaction {
     public void setFraudReason(String fraudReason) {
         this.fraudReason = fraudReason;
     }
-} 
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    public Boolean getIsDisputed() {
+        return isDisputed;
+    }
+
+    public void setIsDisputed(Boolean isDisputed) {
+        this.isDisputed = isDisputed;
+    }
+
+    public String getDisputeReason() {
+        return disputeReason;
+    }
+
+    public void setDisputeReason(String disputeReason) {
+        this.disputeReason = disputeReason;
+    }
+
+    public String getMerchantName() {
+        return merchantName;
+    }
+
+    public void setMerchantName(String merchantName) {
+        this.merchantName = merchantName;
+    }
+
+    public Boolean getIsRecurring() {
+        return isRecurring;
+    }
+
+    public void setIsRecurring(Boolean isRecurring) {
+        this.isRecurring = isRecurring;
+    }
+}
