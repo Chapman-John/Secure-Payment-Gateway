@@ -1,10 +1,14 @@
-import { FC } from 'react';
+import { FC, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import { ChevronDownIcon } from '@heroicons/react/24/outline';
 import NotificationBell from './NotificationBell';
 
 const Navbar: FC = () => {
   const location = useLocation();
+  const [showTransactionDropdown, setShowTransactionDropdown] = useState(false);
+
   const isActive = (path: string): boolean => location.pathname === path;
+  const isTransactionActive = (): boolean => location.pathname.startsWith('/transactions');
 
   // In a real app, get this from your auth context
   const userId = 1; // Replace with actual user ID from context
@@ -34,6 +38,7 @@ const Navbar: FC = () => {
               >
                 Dashboard
               </Link>
+
               <Link
                 to="/accounts"
                 className={`px-6 py-3 rounded-md text-base font-medium transition-all duration-200 ${isActive('/accounts')
@@ -43,17 +48,42 @@ const Navbar: FC = () => {
               >
                 Accounts
               </Link>
-              <Link
-                to="/transactions"
-                className={`px-6 py-3 rounded-md text-base font-medium transition-all duration-200 ${isActive('/transactions')
-                  ? 'bg-white text-blue-800'
-                  : 'text-white hover:bg-blue-700'
-                  }`}
-              >
-                Transactions
-              </Link>
-            </div>
 
+              {/* Transactions Dropdown */}
+              <div className="relative">
+                <button
+                  onClick={() => setShowTransactionDropdown(!showTransactionDropdown)}
+                  className={`flex items-center px-6 py-3 rounded-md text-base font-medium transition-all duration-200 ${isTransactionActive()
+                    ? 'bg-white text-blue-800'
+                    : 'text-white hover:bg-blue-700'
+                    }`}
+                >
+                  Transactions
+                  <ChevronDownIcon className="ml-1 h-4 w-4" />
+                </button>
+
+                {showTransactionDropdown && (
+                  <div className="absolute top-full left-0 mt-1 w-48 bg-white rounded-md shadow-lg z-50">
+                    <div className="py-1">
+                      <Link
+                        to="/transactions"
+                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                        onClick={() => setShowTransactionDropdown(false)}
+                      >
+                        Transaction History
+                      </Link>
+                      <Link
+                        to="/transactions/analytics"
+                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                        onClick={() => setShowTransactionDropdown(false)}
+                      >
+                        Analytics & Insights
+                      </Link>
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
 
             <div className="flex items-center ml-4">
               <NotificationBell userId={userId} />

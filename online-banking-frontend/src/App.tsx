@@ -3,8 +3,10 @@ import Navbar from './components/Navbar';
 import AccountsList from './components/AccountsList';
 import NotificationsPage from './pages/NotificationsPage';
 import NotificationSettingsPage from './pages/NotificationSettingsPage';
+import TransactionHistoryPage from './pages/TransactionHistoryPage';
+import TransactionAnalyticsPage from './pages/TransactionAnalyticsPage';
 
-// Create simple components for Dashboard and Transactions
+// Create simple components for Dashboard
 const Dashboard = () => (
   <div className="container mx-auto px-8 py-6">
     <h1 className="text-3xl font-bold text-gray-800 mb-8">Welcome Back</h1>
@@ -43,32 +45,6 @@ const Dashboard = () => (
   </div>
 );
 
-const Transactions = () => (
-  <div className="container mx-auto px-8 py-6">
-    <h1 className="text-3xl font-bold text-gray-800 mb-8">Recent Transactions</h1>
-    <div className="bg-white rounded-xl shadow-lg overflow-hidden">
-      <div className="p-6 border-b border-gray-200 hover:bg-gray-50 transition-colors">
-        <div className="flex justify-between items-center">
-          <div>
-            <p className="font-semibold text-gray-800 text-lg">Grocery Store</p>
-            <p className="text-gray-600">Feb 15, 2024</p>
-          </div>
-          <span className="text-red-600 font-semibold text-lg">-$82.45</span>
-        </div>
-      </div>
-      <div className="p-6 border-b border-gray-200 hover:bg-gray-50 transition-colors">
-        <div className="flex justify-between items-center">
-          <div>
-            <p className="font-semibold text-gray-800 text-lg">Direct Deposit</p>
-            <p className="text-gray-600">Feb 14, 2024</p>
-          </div>
-          <span className="text-green-600 font-semibold text-lg">+$2,450.00</span>
-        </div>
-      </div>
-    </div>
-  </div>
-);
-
 function App() {
   return (
     <div className="min-h-screen bg-gray-50">
@@ -78,7 +54,8 @@ function App() {
           <Routes>
             <Route path="/" element={<Dashboard />} />
             <Route path="/accounts" element={<AccountsList />} />
-            <Route path="/transactions" element={<Transactions />} />
+            <Route path="/transactions" element={<TransactionHistoryPage />} />
+            <Route path="/transactions/analytics" element={<TransactionAnalyticsPage />} />
             <Route path="/notifications" element={<NotificationsPage />} />
             <Route path="/notifications/settings" element={<NotificationSettingsPage />} />
           </Routes>

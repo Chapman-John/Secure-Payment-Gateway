@@ -32,6 +32,7 @@ com/bankapp/onlinebanking/security/JwtTokenProvider.class
 com/bankapp/onlinebanking/controller/NotificationRestController.class
 com/bankapp/onlinebanking/OnlineBankingApplication.class
 com/bankapp/onlinebanking/repository/TransactionRepository.class
+com/bankapp/onlinebanking/controller/TransactionController.class
 com/bankapp/onlinebanking/config/SecurityConfig.class
 com/bankapp/onlinebanking/entity/Account.class
 com/bankapp/onlinebanking/service/NotificationService.class
