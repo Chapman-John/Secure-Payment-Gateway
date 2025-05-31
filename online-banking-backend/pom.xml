@@ -6,7 +6,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.3.5</version>
+		<version>3.3.12</version>
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.bank-app</groupId>
@@ -17,14 +17,40 @@
 	<properties>
 		<java.version>17</java.version>
 		<lombok.version>1.18.30</lombok.version>
+		<spring-ai.version>0.8.1</spring-ai.version>
 	</properties>
+
+	<!-- Spring AI BOM for dependency management -->
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.springframework.ai</groupId>
+				<artifactId>spring-ai-bom</artifactId>
+				<version>${spring-ai.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
+	<!-- Add Spring AI repositories -->
+	<repositories>
+		<repository>
+			<id>spring-milestones</id>
+			<name>Spring Milestones</name>
+			<url>https://repo.spring.io/milestone</url>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</repository>
+	</repositories>
+
 	<dependencies>
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-actuator</artifactId>
 		</dependency>
-
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -91,13 +117,9 @@
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
-
 			<groupId>jakarta.validation</groupId>
-
 			<artifactId>jakarta.validation-api</artifactId>
-
 			<version>3.0.0</version>
-
 		</dependency>
 		<dependency>
 			<groupId>com.h2database</groupId>
@@ -108,6 +130,50 @@
 			<groupId>org.flywaydb</groupId>
 			<artifactId>flyway-core</artifactId>
 		</dependency>
+
+		<!-- ========== SPRING AI DEPENDENCIES ========== -->
+
+		<!-- Spring AI OpenAI Starter - Core dependency for OpenAI integration -->
+		<dependency>
+			<groupId>org.springframework.ai</groupId>
+			<artifactId>spring-ai-openai-spring-boot-starter</artifactId>
+			<!-- Version managed by spring-ai-bom -->
+		</dependency>
+
+		<!-- Spring AI Retry support for resilient AI calls -->
+		<dependency>
+			<groupId>org.springframework.ai</groupId>
+			<artifactId>spring-ai-retry</artifactId>
+			<!-- Version managed by spring-ai-bom -->
+		</dependency>
+
+		<!-- Vector Store for RAG (Retrieval Augmented Generation) -->
+		<dependency>
+			<groupId>org.springframework.ai</groupId>
+			<artifactId>spring-ai-chroma-store</artifactId>
+			<!-- Version managed by spring-ai-bom -->
+		</dependency>
+
+		<!-- Additional Spring AI components you might need -->
+		<dependency>
+			<groupId>org.springframework.ai</groupId>
+			<artifactId>spring-ai-spring-boot-autoconfigure</artifactId>
+			<!-- Version managed by spring-ai-bom -->
+		</dependency>
+
+		<!-- For structured output mapping -->
+		<dependency>
+			<groupId>org.springframework.ai</groupId>
+			<artifactId>spring-ai-core</artifactId>
+			<!-- Version managed by spring-ai-bom -->
+		</dependency>
+
+		<!-- Jackson for JSON processing (if not already included) -->
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+		</dependency>
+
 	</dependencies>
 
 	<build>
